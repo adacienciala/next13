@@ -7,7 +7,7 @@ export const products: TProduct[] = [
 		category: "Category 1",
 		price: getRandomNumber(100, 10),
 		image: {
-			src: `https://picsum.photos/300?random=${Math.random()}`,
+			src: `https://picsum.photos/200?random=${Math.random()}`,
 			alt: "Product 1 image",
 		},
 	},
@@ -16,7 +16,7 @@ export const products: TProduct[] = [
 		category: "Category 2",
 		price: getRandomNumber(100, 10),
 		image: {
-			src: `https://picsum.photos/300?random=${Math.random()}`,
+			src: `https://picsum.photos/200?random=${Math.random()}`,
 			alt: "Product 2 image",
 		},
 	},
@@ -25,7 +25,7 @@ export const products: TProduct[] = [
 		category: "Category 3",
 		price: getRandomNumber(100, 10),
 		image: {
-			src: `https://picsum.photos/300?random=${Math.random()}`,
+			src: `https://picsum.photos/200?random=${Math.random()}`,
 			alt: "Product 3 image",
 		},
 	},
@@ -34,7 +34,7 @@ export const products: TProduct[] = [
 		category: "Category 4",
 		price: getRandomNumber(100, 10),
 		image: {
-			src: `https://picsum.photos/300?random=${Math.random()}`,
+			src: `https://picsum.photos/200?random=${Math.random()}`,
 			alt: "Product 4 image",
 		},
 	},

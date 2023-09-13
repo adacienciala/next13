@@ -14,14 +14,7 @@ export const Product = ({ product }: { product: TProduct }) => {
 	return (
 		<Card>
 			<CardHeader>
-				<Image
-					width={300}
-					height={300}
-					layout="responsive"
-					objectFit="cover"
-					src={product.image.src}
-					alt={product.image.alt}
-				/>
+				<Image width={200} height={200} src={product.image.src} alt={product.image.alt} />
 			</CardHeader>
 			<CardContent>
 				<CardDescription>{product.category}</CardDescription>
