@@ -1,8 +1,17 @@
 export type TProductCover = { src: string; alt: string };
 
 export type TProduct = {
-	name: string;
-	category: string;
+	id: string;
+	title: string;
 	price: number;
-	image: TProductCover;
+	description: string;
+	category: string;
+	rating: TProductRating;
+	image: string;
+	longDescription: string;
+};
+
+export type TProductRating = {
+	rate: number;
+	count: number;
 };

@@ -12,13 +12,13 @@ import {
 
 export const Product = ({ product }: { product: TProduct }) => {
 	return (
-		<Card>
-			<CardHeader>
-				<Image width={200} height={200} src={product.image.src} alt={product.image.alt} />
+		<Card className="w-80">
+			<CardHeader className="flex h-96 items-center justify-center overflow-hidden">
+				<Image height={400} width={200} src={product.image} alt={product.title} />
 			</CardHeader>
 			<CardContent>
 				<CardDescription>{product.category}</CardDescription>
-				<CardTitle>{product.name}</CardTitle>
+				<CardTitle>{product.title}</CardTitle>
 				<CardDescription>
 					{new Intl.NumberFormat("en-US", {
 						style: "currency",
@@ -26,7 +26,9 @@ export const Product = ({ product }: { product: TProduct }) => {
 					}).format(product.price)}
 				</CardDescription>
 			</CardContent>
-			<CardFooter></CardFooter>
+			<CardFooter>
+				Rating: {product.rating.rate} by {product.rating.count}
+			</CardFooter>
 		</Card>
 	);
 };

@@ -3,7 +3,8 @@
 	"typescript.tsdk": "node_modules/typescript/lib",
 	"editor.defaultFormatter": "esbenp.prettier-vscode",
 	"editor.codeActionsOnSave": {
-		"source.fixAll": true
+		"source.fixAll": true,
+		"source.fixAll.eslint": true
 	},
 	"graphql-config.dotEnvPath": "./.env",
 	"graphql-config.load.configName": "graphql",

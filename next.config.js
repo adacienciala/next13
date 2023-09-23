@@ -1,15 +1,29 @@
 /** @type {import('next').NextConfig} */
 const nextConfig = {
+	pageExtensions: ["ts", "tsx", "js", "jsx", "md", "mdx"],
+	experimental: {
+		typedRoutes: true,
+		mdxRs: true,
+	},
 	images: {
 		remotePatterns: [
 			{
 				protocol: "https",
-				hostname: "picsum.photos",
+				hostname: "naszsklep-api.vercel.app",
 				port: "",
 				pathname: "/**",
 			},
 		],
 	},
+	async rewrites() {
+		return [
+			{
+				source: "/products",
+				destination: "/products/1",
+			},
+		];
+	},
 };
 
-module.exports = nextConfig;
+const withMDX = require("@next/mdx")();
+module.exports = withMDX(nextConfig);
