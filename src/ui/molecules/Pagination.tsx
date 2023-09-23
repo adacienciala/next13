@@ -2,7 +2,7 @@ import { type Route } from "next";
 
 import { PaginationTile } from "@/ui/atoms/PaginationTile";
 
-export const Pagination = ({ href }: { href: Route<string> }) => {
+export const Pagination = <T extends string>({ href }: { href: Route<T> }) => {
 	const rightRoundedArrow =
 		"relative inline-flex items-center rounded-r-md px-2 py-2 text-gray-400 ring-1 ring-inset ring-gray-300 hover:bg-gray-50 focus:z-20 focus:outline-offset-0";
 	const leftRoundedArrow =

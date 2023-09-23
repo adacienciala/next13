@@ -8,7 +8,7 @@ export const metadata: Metadata = {
 	title: "Awesome Products",
 };
 
-export const generateStaticParams = async ({ params }: { params: { page: string } }) => {
+export const generateStaticParams = async () => {
 	const allPages = [];
 	for (let i = 1; i < 50; i++) {
 		allPages.push({
