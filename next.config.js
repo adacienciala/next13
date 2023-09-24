@@ -13,6 +13,12 @@ const nextConfig = {
 				port: "",
 				pathname: "/**",
 			},
+			{
+				protocol: "https",
+				hostname: "api.hyperfunctor.com",
+				port: "",
+				pathname: "/**",
+			},
 		],
 	},
 	async rewrites() {
