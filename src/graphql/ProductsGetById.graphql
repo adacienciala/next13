@@ -1,0 +1,5 @@
+query ProductsGetById($id: ID!) {
+  product(where: {id: $id}) {
+    ...ProductItem
+  }
+}

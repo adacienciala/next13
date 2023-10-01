@@ -1,62 +1,65 @@
-/* eslint-disable @typescript-eslint/no-unsafe-call */
-/* eslint-disable @typescript-eslint/no-unsafe-member-access */
-/* eslint-disable @typescript-eslint/no-explicit-any */
-/* eslint-disable @typescript-eslint/no-unsafe-assignment */
-
+import {
+	ProductsGetAllDocument,
+	ProductsGetByCategoryDocument,
+	ProductsGetByIdDocument,
+	type ProductItemFragment,
+} from "@/gql/graphql";
 import { executeGraphql } from "@/lib/graphql";
 import { type TProduct } from "@/types";
 
-export const getProducts = async (params?: { page?: number; take?: number }) => {
-	const { page = 0, take = 20 } = params ?? {};
-	const query = /* GraphQL */ `
-		query Products($pagination: PaginationArg) {
-			products(pagination: $pagination) {
-				data {
-					attributes {
-						slug
-						name
-						description
-						price
-						categories {
-							data {
-								attributes {
-									name
-								}
-							}
-						}
-						weightedRating
-						images {
-							data {
-								attributes {
-									url
-								}
-							}
-						}
-					}
-				}
-			}
-		}
-	`;
-	const res: any = await executeGraphql(query, {
-		pagination: {
-			page,
-			pageSize: take,
-		},
+const TAKE_DEFAULT = 4;
+
+export const getProductsByCategory = async (params?: {
+	slug: string;
+	page?: number;
+	take?: number;
+}) => {
+	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
+	if (!slug) return undefined;
+
+	const res = await executeGraphql(ProductsGetByCategoryDocument, {
+		slug,
+		first: take,
+		skip: page * take,
 	});
-	const results = res.products.data;
-	return results.map((p) => ({
-		id: p.attributes.slug,
-		title: p.attributes.name,
-		price: p.attributes.price,
-		description: p.attributes.description,
-		category: p.attributes.categories.data[0].attributes.name || "",
-		rating: p.attributes.weightedRating?.toString() || "-",
-		image: "https://api.hyperfunctor.com" + p.attributes.images.data[0].attributes.url,
-		longDescription: p.attributes.description,
-	})) as TProduct[];
+	const total = res.productsConnection.aggregate.count;
+	const results = res.products || [];
+	const products = results.map((p) => fromApiToProduct(p));
+	return { products, total };
 };
 
 export const getProductById = async (id: TProduct["id"]) => {
-	const res = await fetch(`https://naszsklep-api.vercel.app/api/products/${id}`);
-	return (await res.json()) as TProduct;
+	const res = await executeGraphql(ProductsGetByIdDocument, {
+		id,
+	});
+
+	const p = res.product;
+	if (!p) return undefined;
+
+	return fromApiToProduct(p);
 };
+
+export const getProducts = async (params?: { page?: number; take?: number }) => {
+	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
+
+	const res = await executeGraphql(ProductsGetAllDocument, {
+		first: take,
+		skip: page * take,
+	});
+	const total = res.productsConnection.aggregate.count;
+	const results = res.products || [];
+	const products = results.map((p) => fromApiToProduct(p));
+	return { products, total };
+};
+
+const fromApiToProduct = (p: ProductItemFragment) =>
+	({
+		id: p.id,
+		slug: p.slug,
+		name: p.name,
+		price: p.price,
+		description: p.description,
+		category: p.categories[0]?.name,
+		reviews: p.reviews,
+		image: p.images[0]?.url,
+	}) as TProduct;

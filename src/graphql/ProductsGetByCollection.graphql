@@ -1,0 +1,10 @@
+query ProductsGetByCollection($slug: String!, $first: Int, $skip: Int) {
+  products(first: $first, skip: $skip, where: {collections_some: {slug: $slug}}) {
+    ...ProductItem
+  }
+  productsConnection(where: {collections_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}

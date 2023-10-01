@@ -18,13 +18,14 @@ export const generateStaticParams = async () => {
 	return allPages;
 };
 
-export default async function ProductsPaginationPage({ params }: { params: { page: string } }) {
+export default async function AllProductsPaginationPage({ params }: { params: { page: string } }) {
 	const pageNr = Number(params.page);
 	if (pageNr < 1) return notFound();
+
 	return (
 		<>
 			<ProductList page={pageNr} />
-			<Pagination href="/products" />
+			<Pagination href={`/products`} />
 		</>
 	);
 }
