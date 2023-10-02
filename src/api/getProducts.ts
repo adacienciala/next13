@@ -1,6 +1,7 @@
 import {
 	ProductsGetAllDocument,
 	ProductsGetByCategoryDocument,
+	ProductsGetByCollectionDocument,
 	ProductsGetByIdDocument,
 	type ProductItemFragment,
 } from "@/gql/graphql";
@@ -15,9 +16,28 @@ export const getProductsByCategory = async (params?: {
 	take?: number;
 }) => {
 	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
-	if (!slug) return undefined;
+	if (!slug) return {};
 
 	const res = await executeGraphql(ProductsGetByCategoryDocument, {
+		slug,
+		first: take,
+		skip: page * take,
+	});
+	const total = res.productsConnection.aggregate.count;
+	const results = res.products || [];
+	const products = results.map((p) => fromApiToProduct(p));
+	return { products, total };
+};
+
+export const getProductsByCollection = async (params?: {
+	slug: string;
+	page?: number;
+	take?: number;
+}) => {
+	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
+	if (!slug) return {};
+
+	const res = await executeGraphql(ProductsGetByCollectionDocument, {
 		slug,
 		first: take,
 		skip: page * take,

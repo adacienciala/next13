@@ -10725,6 +10725,11 @@ export type ProductsGetAllQueryVariables = Exact<{
 
 export type ProductsGetAllQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
+export type ProductsGetAllTotalQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type ProductsGetAllTotalQuery = { productsConnection: { aggregate: { count: number } } };
+
 export type ProductsGetByCategoryQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10734,6 +10739,13 @@ export type ProductsGetByCategoryQueryVariables = Exact<{
 
 export type ProductsGetByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
 
+export type ProductsGetByCategoryTotalQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetByCategoryTotalQuery = { productsConnection: { aggregate: { count: number } } };
+
 export type ProductsGetByCollectionQueryVariables = Exact<{
   slug: Scalars['String']['input'];
   first?: InputMaybe<Scalars['Int']['input']>;
@@ -10742,6 +10754,13 @@ export type ProductsGetByCollectionQueryVariables = Exact<{
 
 
 export type ProductsGetByCollectionQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }> }>, productsConnection: { aggregate: { count: number } } };
+
+export type ProductsGetByCollectionTotalQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+}>;
+
+
+export type ProductsGetByCollectionTotalQuery = { productsConnection: { aggregate: { count: number } } };
 
 export type ProductsGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
@@ -10815,6 +10834,15 @@ export const ProductsGetAllDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetAllQuery, ProductsGetAllQueryVariables>;
+export const ProductsGetAllTotalDocument = new TypedDocumentString(`
+    query ProductsGetAllTotal {
+  productsConnection {
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetAllTotalQuery, ProductsGetAllTotalQueryVariables>;
 export const ProductsGetByCategoryDocument = new TypedDocumentString(`
     query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int) {
   products(first: $first, skip: $skip, where: {categories_some: {slug: $slug}}) {
@@ -10845,6 +10873,15 @@ export const ProductsGetByCategoryDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCategoryQuery, ProductsGetByCategoryQueryVariables>;
+export const ProductsGetByCategoryTotalDocument = new TypedDocumentString(`
+    query ProductsGetByCategoryTotal($slug: String!) {
+  productsConnection(where: {categories_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetByCategoryTotalQuery, ProductsGetByCategoryTotalQueryVariables>;
 export const ProductsGetByCollectionDocument = new TypedDocumentString(`
     query ProductsGetByCollection($slug: String!, $first: Int, $skip: Int) {
   products(first: $first, skip: $skip, where: {collections_some: {slug: $slug}}) {
@@ -10875,6 +10912,15 @@ export const ProductsGetByCollectionDocument = new TypedDocumentString(`
     url
   }
 }`) as unknown as TypedDocumentString<ProductsGetByCollectionQuery, ProductsGetByCollectionQueryVariables>;
+export const ProductsGetByCollectionTotalDocument = new TypedDocumentString(`
+    query ProductsGetByCollectionTotal($slug: String!) {
+  productsConnection(where: {collections_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    `) as unknown as TypedDocumentString<ProductsGetByCollectionTotalQuery, ProductsGetByCollectionTotalQueryVariables>;
 export const ProductsGetByIdDocument = new TypedDocumentString(`
     query ProductsGetById($id: ID!) {
   product(where: {id: $id}) {

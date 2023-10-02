@@ -10,3 +10,6 @@ export type TProduct = {
 	reviews: { rating: number }[];
 	image?: string;
 };
+
+export type TCategoryList = { category?: string; collection?: never };
+export type TCollectionList = { category?: never; collection?: string };
