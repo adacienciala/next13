@@ -9,6 +9,12 @@ export type TProduct = {
 	category: string;
 	reviews: { rating: number }[];
 	image?: string;
+	variants?: {
+		id: string;
+		name: string;
+		color: string;
+		size: string;
+	}[];
 };
 
 export type TCategoryList = { category?: string; collection?: never };

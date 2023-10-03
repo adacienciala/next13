@@ -82,4 +82,5 @@ const fromApiToProduct = (p: ProductItemFragment) =>
 		category: p.categories[0]?.name,
 		reviews: p.reviews,
 		image: p.images[0]?.url,
+		variants: p.variants,
 	}) as TProduct;

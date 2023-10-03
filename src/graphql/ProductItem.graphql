@@ -16,4 +16,5 @@ fragment ProductItem on Product {
   images {
     url
   }
+  ...ProductVariant
 }

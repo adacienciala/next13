@@ -4,6 +4,7 @@ import Image from "next/image";
 import { notFound } from "next/navigation";
 
 import { getProductById } from "@/api/getProducts";
+import { ProductVariants } from "@/ui/molecules/ProductVariants";
 
 export const generateMetadata = async ({
 	params,
@@ -36,6 +37,7 @@ export default async function ProductDetailsPage({ params }: { params: { product
 					style: "currency",
 					currency: "USD",
 				}).format(product.price)}
+				<ProductVariants product={product} />
 			</p>
 			<p className="row-auto mt-4 flex">
 				<Check color="green" /> In stock
