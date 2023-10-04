@@ -3,6 +3,7 @@ import { notFound } from "next/navigation";
 
 import { getProductsByCategory } from "@/api/getProducts";
 import { getTotal } from "@/api/getTotal";
+import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/molecules/ProductList";
 
@@ -13,15 +14,13 @@ type TCategoryProductsPaginationPage = {
 	};
 };
 
-const CATEGORY_DEFAULT_TAKE = 4;
-
 export const metadata: Metadata = {
 	title: "Awesome Category Products",
 };
 
 export const generateStaticParams = async ({ params }: TCategoryProductsPaginationPage) => {
 	const total = await getTotal({ category: params.category });
-	const pages = Math.ceil(total / CATEGORY_DEFAULT_TAKE);
+	const pages = Math.ceil(total / DEFAULT_TAKE);
 	return [...Array(pages).keys()].map((i) => {
 		page: i.toString();
 	});
@@ -36,10 +35,10 @@ export default async function CategoryProductsPaginationPage({
 	const { products, total } = await getProductsByCategory({
 		slug: params.category,
 		page: pageNr,
-		take: CATEGORY_DEFAULT_TAKE,
+		take: DEFAULT_TAKE,
 	});
 
-	const pages = total ? Math.ceil(total / CATEGORY_DEFAULT_TAKE) : 0;
+	const pages = total ? Math.ceil(total / DEFAULT_TAKE) : 0;
 
 	return (
 		<>

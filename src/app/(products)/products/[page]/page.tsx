@@ -3,17 +3,15 @@ import { notFound } from "next/navigation";
 
 import { getProducts } from "@/api/getProducts";
 import { getTotal } from "@/api/getTotal";
+import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/molecules/ProductList";
 
 type TAllProductsPaginationPage = {
 	params: {
 		page: string;
-		total: string;
 	};
 };
-
-const DEFAULT_TAKE = 4;
 
 export const metadata: Metadata = {
 	title: "Awesome Products",
