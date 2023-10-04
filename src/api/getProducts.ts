@@ -3,6 +3,7 @@ import {
 	ProductsGetByCategoryDocument,
 	ProductsGetByCollectionDocument,
 	ProductsGetByIdDocument,
+	ProductsGetSearchDocument,
 	type ProductItemFragment,
 } from "@/gql/graphql";
 import { executeGraphql } from "@/lib/graphql";
@@ -65,6 +66,28 @@ export const getProducts = async (params?: { page?: number; take?: number }) => 
 	const res = await executeGraphql(ProductsGetAllDocument, {
 		first: take,
 		skip: page * take,
+	});
+	const total = res.productsConnection.aggregate.count;
+	const results = res.products || [];
+	const products = results.map((p) => fromApiToProduct(p));
+	return { products, total };
+};
+
+export const getProductsSearch = async (params?: {
+	page?: number;
+	take?: number;
+	search?: string;
+}) => {
+	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
+
+	if (!params?.search || params.search === "") {
+		return getProducts(params);
+	}
+
+	const res = await executeGraphql(ProductsGetSearchDocument, {
+		first: take,
+		skip: page * take,
+		search: params.search,
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
