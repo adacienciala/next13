@@ -1,11 +1,12 @@
 import Link from "next/link";
+import { notFound } from "next/navigation";
 
-import { getProducts } from "@/api/getProducts";
+import { type TProduct } from "@/types";
 import { Product } from "@/ui/molecules/Product";
 
-export const ProductList = async ({ page, take }: { page: number; take?: number }) => {
-	const apiPage = page - 1;
-	const products = await getProducts({ page: apiPage, take });
+export const ProductList = async ({ products }: { products?: TProduct[] }) => {
+	if (!products || products.length === 0) return notFound();
+
 	return (
 		<ul data-testid="products-list" className="flex flex-wrap gap-6">
 			{products.map((product) => (

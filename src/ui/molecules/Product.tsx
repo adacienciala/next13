@@ -11,24 +11,29 @@ import {
 } from "@/ui/molecules/card";
 
 export const Product = ({ product }: { product: TProduct }) => {
+	const reviewAvg =
+		product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length;
+
 	return (
 		<Card className="w-80">
 			<CardHeader className="flex h-96 items-center justify-center overflow-hidden">
-				<Image height={400} width={200} src={product.image} alt={product.title} />
+				{product.image && <Image height={400} width={200} src={product.image} alt={product.name} />}
 			</CardHeader>
 			<CardContent>
 				<CardDescription>{product.category}</CardDescription>
-				<CardTitle>{product.title}</CardTitle>
+				<CardTitle>{product.name}</CardTitle>
 				<CardDescription>
 					{new Intl.NumberFormat("en-US", {
 						style: "currency",
 						currency: "USD",
-					}).format(product.price)}
+					}).format(product.price / 100)}
 				</CardDescription>
 			</CardContent>
-			<CardFooter>
-				Rating: {product.rating.rate} by {product.rating.count}
-			</CardFooter>
+			{product.reviews.length > 0 && (
+				<CardFooter>
+					Rating: {reviewAvg.toFixed(2)} by {product.reviews.length}
+				</CardFooter>
+			)}
 		</Card>
 	);
 };
