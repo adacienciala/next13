@@ -24,6 +24,8 @@ const documents = {
     "query ProductsGetAllTotal {\n  productsConnection {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetAllTotalDocument,
     "query ProductsGetByCategoryTotal($slug: String!) {\n  productsConnection(where: {categories_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetByCategoryTotalDocument,
     "query ProductsGetByCollectionTotal($slug: String!) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}": types.ProductsGetByCollectionTotalDocument,
+    "query CategoriesGetAll {\n  categories {\n    name\n    slug\n  }\n}": types.CategoriesGetAllDocument,
+    "query CollectionsGetAll {\n  collections {\n    name\n    slug\n  }\n}": types.CollectionsGetAllDocument,
 };
 
 /**
@@ -66,6 +68,14 @@ export function graphql(source: "query ProductsGetByCategoryTotal($slug: String!
  * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
  */
 export function graphql(source: "query ProductsGetByCollectionTotal($slug: String!) {\n  productsConnection(where: {collections_some: {slug: $slug}}) {\n    aggregate {\n      count\n    }\n  }\n}"): typeof import('./graphql').ProductsGetByCollectionTotalDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query CategoriesGetAll {\n  categories {\n    name\n    slug\n  }\n}"): typeof import('./graphql').CategoriesGetAllDocument;
+/**
+ * The graphql function is used to parse GraphQL queries into a document that can be used by GraphQL clients.
+ */
+export function graphql(source: "query CollectionsGetAll {\n  collections {\n    name\n    slug\n  }\n}"): typeof import('./graphql').CollectionsGetAllDocument;
 
 
 export function graphql(source: string) {

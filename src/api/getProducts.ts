@@ -76,18 +76,14 @@ export const getProducts = async (params?: { page?: number; take?: number }) => 
 export const getProductsSearch = async (params?: {
 	page?: number;
 	take?: number;
-	search?: string;
+	search: string;
 }) => {
 	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
-
-	if (!params?.search || params.search === "") {
-		return getProducts(params);
-	}
 
 	const res = await executeGraphql(ProductsGetSearchDocument, {
 		first: take,
 		skip: page * take,
-		search: params.search,
+		search: params!.search,
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
@@ -103,6 +99,7 @@ const fromApiToProduct = (p: ProductItemFragment) =>
 		price: p.price,
 		description: p.description,
 		category: p.categories[0]?.name,
+		collection: p.collections[0]?.name,
 		reviews: p.reviews,
 		image: p.images[0]?.url,
 		variants: p.variants,

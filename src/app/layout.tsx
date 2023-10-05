@@ -1,8 +1,9 @@
-import type { Metadata } from "next";
+import { type Metadata } from "next";
 import { Inter } from "next/font/google";
 
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
+import { getCategories } from "@/api/getCategories";
 import { SearchInput } from "@/ui/molecules/SearchInput";
 import "./globals.css";
 
@@ -12,11 +13,13 @@ export const metadata: Metadata = {
 	title: "Awesome Shop Mate",
 };
 
-export default function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({ children }: { children: React.ReactNode }) {
+	const categories = await getCategories();
+
 	return (
 		<html lang="en">
 			<body className={inter.className}>
-				<h2 className="mt-4 text-center">Awesome Shop Mate</h2>
+				<h3 className="mt-4 text-center">Awesome Shop Mate</h3>
 				<nav className="row flex justify-between">
 					<ul className="flex gap-4 border-b border-gray-200 p-4 dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400">
 						<li>
@@ -33,11 +36,13 @@ export default function RootLayout({ children }: { children: React.ReactNode }) 
 								All
 							</ActiveLink>
 						</li>
-						<li>
-							<ActiveLink href="/categories" exact={false}>
-								Categories
-							</ActiveLink>
-						</li>
+						{categories.map((cat) => (
+							<li key={cat.slug}>
+								<ActiveLink href={`/categories/${cat.slug}/1`} exact={false}>
+									{cat.name}
+								</ActiveLink>
+							</li>
+						))}
 					</ul>
 					<SearchInput />
 				</nav>

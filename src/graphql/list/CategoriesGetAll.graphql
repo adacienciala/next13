@@ -1,0 +1,6 @@
+query CategoriesGetAll {
+  categories {
+    name
+    slug
+  }
+}

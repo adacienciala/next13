@@ -27,7 +27,7 @@ export default async function ProductDetailsPage({ params }: { params: { product
 		<>
 			<p className="mb-4 text-2xl font-bold">Product Details</p>
 			<p className="mt-4 text-stone-400">{product.category}</p>
-			<h1>{product.name}</h1>
+			<h1>{product.name.trim()}</h1>
 			<div className="flex h-96 items-center justify-center overflow-hidden">
 				{product.image && <Image height={400} width={200} src={product.image} alt={product.name} />}
 			</div>

@@ -10780,6 +10780,16 @@ export type ProductsGetByCollectionTotalQueryVariables = Exact<{
 
 export type ProductsGetByCollectionTotalQuery = { productsConnection: { aggregate: { count: number } } };
 
+export type CategoriesGetAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CategoriesGetAllQuery = { categories: Array<{ name: string, slug: string }> };
+
+export type CollectionsGetAllQueryVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CollectionsGetAllQuery = { collections: Array<{ name: string, slug: string }> };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -11134,3 +11144,19 @@ export const ProductsGetByCollectionTotalDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<ProductsGetByCollectionTotalQuery, ProductsGetByCollectionTotalQueryVariables>;
+export const CategoriesGetAllDocument = new TypedDocumentString(`
+    query CategoriesGetAll {
+  categories {
+    name
+    slug
+  }
+}
+    `) as unknown as TypedDocumentString<CategoriesGetAllQuery, CategoriesGetAllQueryVariables>;
+export const CollectionsGetAllDocument = new TypedDocumentString(`
+    query CollectionsGetAll {
+  collections {
+    name
+    slug
+  }
+}
+    `) as unknown as TypedDocumentString<CollectionsGetAllQuery, CollectionsGetAllQueryVariables>;

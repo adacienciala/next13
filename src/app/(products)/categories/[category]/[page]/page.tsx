@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getCategories } from "@/api/getCategories";
 import { getProductsByCategory } from "@/api/getProducts";
 import { getTotal } from "@/api/getTotal";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
@@ -14,8 +15,13 @@ type TCategoryProductsPaginationPage = {
 	};
 };
 
-export const metadata: Metadata = {
-	title: "Awesome Category Products",
+export const generateMetadata = async ({
+	params,
+}: TCategoryProductsPaginationPage): Promise<Metadata> => {
+	const categories = await getCategories();
+	return {
+		title: categories.find((c) => c.slug === params.category)?.name || "Awesome Category",
+	};
 };
 
 export const generateStaticParams = async ({ params }: TCategoryProductsPaginationPage) => {
@@ -42,6 +48,7 @@ export default async function CategoryProductsPaginationPage({
 
 	return (
 		<>
+			{products && products[0] && <h1>{products[0].category}</h1>}
 			<ProductList products={products} />
 			<Pagination pages={pages} href={`/categories/${params.category}`} />
 		</>

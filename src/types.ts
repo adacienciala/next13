@@ -7,6 +7,7 @@ export type TProduct = {
 	price: number;
 	description: string;
 	category: string;
+	collection: string;
 	reviews: { rating: number }[];
 	image?: string;
 	variants?: {

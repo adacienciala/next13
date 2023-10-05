@@ -1,7 +1,6 @@
-import { Suspense } from "react";
-
 import { getProducts } from "@/api/getProducts";
 import { ProductList } from "@/ui/molecules/ProductList";
+import { Suspense } from "react";
 
 export default async function ProductDetailsLayout({ children }: { children: React.ReactNode }) {
 	const { products } = await getProducts({
@@ -11,10 +10,10 @@ export default async function ProductDetailsLayout({ children }: { children: Rea
 	return (
 		<div className="grid min-h-screen w-full grid-cols-12 gap-x-8 bg-white">
 			<main className="col-span-8 px-8 py-4 shadow-xl">{children}</main>
-			<aside className="col-span-4 px-8 py-4 shadow-xl">
+			<aside className="col-span-4 px-8 py-4 shadow-xl" data-testid="related-products">
 				<h2 className="mb-4 text-xl font-bold">Suggested products</h2>
 				<Suspense>
-					<ProductList data-testid="related-products" products={products} />
+					<ProductList products={products} />
 				</Suspense>
 			</aside>
 		</div>

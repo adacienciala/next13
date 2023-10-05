@@ -1,6 +1,7 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
+import { getCollections } from "@/api/getCollections";
 import { getProductsByCollection } from "@/api/getProducts";
 import { getTotal } from "@/api/getTotal";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
@@ -14,8 +15,13 @@ type TCollectionProductsPaginationPage = {
 	};
 };
 
-export const metadata: Metadata = {
-	title: "Awesome Collection Products",
+export const generateMetadata = async ({
+	params,
+}: TCollectionProductsPaginationPage): Promise<Metadata> => {
+	const collections = await getCollections();
+	return {
+		title: collections.find((c) => c.slug === params.collection)?.name || "Awesome Collection",
+	};
 };
 
 export const generateStaticParams = async ({ params }: TCollectionProductsPaginationPage) => {
@@ -44,6 +50,7 @@ export default async function CollectionProductsPaginationPage({
 
 	return (
 		<>
+			{products && products[0] && <h1>{products[0].collection}</h1>}
 			<ProductList products={products} />
 			<Pagination pages={pages} href={`/categories/${params.collection}`} />
 		</>

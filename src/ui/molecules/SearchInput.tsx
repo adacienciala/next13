@@ -22,7 +22,7 @@ export const SearchInput = () => {
 	};
 
 	useEffect(() => {
-		if (value || value === "") {
+		if (value) {
 			router.push(`/search?query=${query?.toString()}`);
 		}
 		// Otherwise the debounce is not working correctly.
@@ -30,7 +30,6 @@ export const SearchInput = () => {
 	}, [value]);
 
 	return (
-		// <form className="flex justify-between gap-3" action={`/search`} onSubmit={handleSearchOnSubmit}>
 		<div className="row mr-32 flex w-96 items-center">
 			<Search size={16} className="pointer-events-none w-10" />
 			<Input
@@ -38,11 +37,11 @@ export const SearchInput = () => {
 				type="search"
 				name="search"
 				autoComplete="off"
+				role="searchbox"
 				value={query}
 				onChange={handleSearchOnChange}
 				onSubmit={handleSearchOnSubmit}
 			/>
 		</div>
-		// </form>
 	);
 };
