@@ -19,10 +19,16 @@ export const getProductsByCategory = async (params?: {
 	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
 	if (!slug) return {};
 
-	const res = await executeGraphql(ProductsGetByCategoryDocument, {
-		slug,
-		first: take,
-		skip: page * take,
+	const res = await executeGraphql({
+		query: ProductsGetByCategoryDocument,
+		variables: {
+			slug,
+			first: take,
+			skip: page * take,
+		},
+		next: {
+			revalidate: 60 * 60 * 24,
+		},
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
@@ -38,10 +44,16 @@ export const getProductsByCollection = async (params?: {
 	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
 	if (!slug) return {};
 
-	const res = await executeGraphql(ProductsGetByCollectionDocument, {
-		slug,
-		first: take,
-		skip: page * take,
+	const res = await executeGraphql({
+		query: ProductsGetByCollectionDocument,
+		variables: {
+			slug,
+			first: take,
+			skip: page * take,
+		},
+		next: {
+			revalidate: 60 * 60 * 24,
+		},
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
@@ -50,8 +62,14 @@ export const getProductsByCollection = async (params?: {
 };
 
 export const getProductById = async (id: TProduct["id"]) => {
-	const res = await executeGraphql(ProductsGetByIdDocument, {
-		id,
+	const res = await executeGraphql({
+		query: ProductsGetByIdDocument,
+		variables: {
+			id,
+		},
+		next: {
+			revalidate: 30,
+		},
 	});
 
 	const p = res.product;
@@ -63,9 +81,12 @@ export const getProductById = async (id: TProduct["id"]) => {
 export const getProducts = async (params?: { page?: number; take?: number }) => {
 	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
 
-	const res = await executeGraphql(ProductsGetAllDocument, {
-		first: take,
-		skip: page * take,
+	const res = await executeGraphql({
+		query: ProductsGetAllDocument,
+		variables: {
+			first: take,
+			skip: page * take,
+		},
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
@@ -80,10 +101,13 @@ export const getProductsSearch = async (params?: {
 }) => {
 	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
 
-	const res = await executeGraphql(ProductsGetSearchDocument, {
-		first: take,
-		skip: page * take,
-		search: params!.search,
+	const res = await executeGraphql({
+		query: ProductsGetSearchDocument,
+		variables: {
+			first: take,
+			skip: page * take,
+			search: params!.search,
+		},
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];

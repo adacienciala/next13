@@ -10761,6 +10761,44 @@ export type ProductsGetSearchQueryVariables = Exact<{
 
 export type ProductsGetSearchQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
 
+export type CartAddProductMutationVariables = Exact<{
+  orderId: Scalars['ID']['input'];
+  productId: Scalars['ID']['input'];
+  total: Scalars['Int']['input'];
+}>;
+
+
+export type CartAddProductMutation = { createOrderItem?: { id: string } | null };
+
+export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
+
+
+export type CartCreateMutation = { createOrder?: { id: string } | null };
+
+export type CartGetByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type CartGetByIdQuery = { order?: { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ url: string }> } | null }> } | null };
+
+export type CartItemFragment = { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, price: number, images: Array<{ url: string }> } | null }> };
+
+export type CartRemoveItemMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+}>;
+
+
+export type CartRemoveItemMutation = { deleteOrderItem?: { id: string } | null };
+
+export type CartSetProductQuantityMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CartSetProductQuantityMutation = { updateOrderItem?: { id: string } | null };
+
 export type ProductsGetAllTotalQueryVariables = Exact<{ [key: string]: never; }>;
 
 
@@ -10867,6 +10905,25 @@ export const ProductItemFragmentDoc = new TypedDocumentString(`
     }
   }
 }`, {"fragmentName":"ProductItem"}) as unknown as TypedDocumentString<ProductItemFragment, unknown>;
+export const CartItemFragmentDoc = new TypedDocumentString(`
+    fragment CartItem on Order {
+  id
+  orderItems {
+    id
+    product {
+      id
+      name
+      price
+      images {
+        url
+      }
+    }
+    quantity
+    total
+  }
+  total
+}
+    `, {"fragmentName":"CartItem"}) as unknown as TypedDocumentString<CartItemFragment, unknown>;
 export const ProductsGetAllDocument = new TypedDocumentString(`
     query ProductsGetAll($first: Int, $skip: Int) {
   products(first: $first, skip: $skip) {
@@ -11117,6 +11174,59 @@ fragment ProductVariant on Product {
     }
   }
 }`) as unknown as TypedDocumentString<ProductsGetSearchQuery, ProductsGetSearchQueryVariables>;
+export const CartAddProductDocument = new TypedDocumentString(`
+    mutation CartAddProduct($orderId: ID!, $productId: ID!, $total: Int!) {
+  createOrderItem(
+    data: {quantity: 1, total: $total, order: {connect: {id: $orderId}}, product: {connect: {id: $productId}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartAddProductMutation, CartAddProductMutationVariables>;
+export const CartCreateDocument = new TypedDocumentString(`
+    mutation CartCreate {
+  createOrder(data: {total: 0}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const CartGetByIdDocument = new TypedDocumentString(`
+    query CartGetById($id: ID!) {
+  order(where: {id: $id}, stage: DRAFT) {
+    ...CartItem
+  }
+}
+    fragment CartItem on Order {
+  id
+  orderItems {
+    id
+    product {
+      id
+      name
+      price
+      images {
+        url
+      }
+    }
+    quantity
+    total
+  }
+  total
+}`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
+export const CartRemoveItemDocument = new TypedDocumentString(`
+    mutation CartRemoveItem($itemId: ID!) {
+  deleteOrderItem(where: {id: $itemId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
+export const CartSetProductQuantityDocument = new TypedDocumentString(`
+    mutation CartSetProductQuantity($itemId: ID!, $quantity: Int!) {
+  updateOrderItem(where: {id: $itemId}, data: {quantity: $quantity}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<CartSetProductQuantityMutation, CartSetProductQuantityMutationVariables>;
 export const ProductsGetAllTotalDocument = new TypedDocumentString(`
     query ProductsGetAllTotal {
   productsConnection {

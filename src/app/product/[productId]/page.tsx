@@ -1,9 +1,14 @@
 import { Check } from "lucide-react";
 import { type Metadata } from "next";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
+import { addProductToCart } from "@/api/cart/addProductToCart";
+import { getOrCreateCart } from "@/api/cart/getOrCreateCart";
 import { getProductById } from "@/api/getProducts";
+import { formatMoney } from "@/lib/formatMoney";
+import { ButtonAddToCart } from "@/ui/molecules/ButtonAddToCart";
 import { ProductVariants } from "@/ui/molecules/ProductVariants";
 
 export const generateMetadata = async ({
@@ -23,6 +28,14 @@ export default async function ProductDetailsPage({ params }: { params: { product
 
 	if (!product) return notFound();
 
+	const addProductToCartAction = async () => {
+		"use server";
+		const cart = await getOrCreateCart();
+		await addProductToCart(cart.id, product.id);
+
+		revalidateTag("cart");
+	};
+
 	return (
 		<>
 			<p className="mb-4 text-2xl font-bold">Product Details</p>
@@ -33,15 +46,15 @@ export default async function ProductDetailsPage({ params }: { params: { product
 			</div>
 			<p className="mt-4">{product.description}</p>
 			<p className="mt-4">
-				{new Intl.NumberFormat("en-US", {
-					style: "currency",
-					currency: "USD",
-				}).format(product.price)}
+				{formatMoney(product.price)}
 				<ProductVariants product={product} />
 			</p>
 			<p className="row-auto mt-4 flex">
 				<Check color="green" /> In stock
 			</p>
+			<form action={addProductToCartAction}>
+				<ButtonAddToCart />
+			</form>
 		</>
 	);
 }

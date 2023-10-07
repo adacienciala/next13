@@ -1,0 +1,17 @@
+fragment CartItem on Order {
+  id
+  orderItems {
+    id
+    product {
+      id
+      name
+      price
+      images {
+        url
+      }
+    }
+    quantity
+    total
+  }
+  total
+}
