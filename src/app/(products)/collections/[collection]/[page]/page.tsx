@@ -3,10 +3,11 @@ import { notFound } from "next/navigation";
 
 import { getCollections } from "@/api/getCollections";
 import { getProductsByCollection } from "@/api/getProducts";
-import { getTotal } from "@/api/getTotal";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/molecules/ProductList";
+
+// export const dynamic = "force-dynamic";
 
 type TCollectionProductsPaginationPage = {
 	params: {
@@ -24,13 +25,13 @@ export const generateMetadata = async ({
 	};
 };
 
-export const generateStaticParams = async ({ params }: TCollectionProductsPaginationPage) => {
-	const total = await getTotal({ collection: params.collection });
-	const pages = Math.ceil(total / DEFAULT_TAKE);
-	return [...Array(pages).keys()].map((i) => {
-		page: i.toString();
-	});
-};
+// export const generateStaticParams = async ({ params }: TCollectionProductsPaginationPage) => {
+// 	const total = await getTotal({ collection: params.collection });
+// 	const pages = Math.ceil(total / DEFAULT_TAKE);
+// 	return [...Array(pages).keys()].map((i) => {
+// 		page: i.toString();
+// 	});
+// };
 
 export default async function CollectionProductsPaginationPage({
 	params,
