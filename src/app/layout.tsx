@@ -16,7 +16,13 @@ export const metadata: Metadata = {
 	title: "Awesome Shop Mate",
 };
 
-export default async function RootLayout({ children }: { children: React.ReactNode }) {
+export default async function RootLayout({
+	children,
+	modal,
+}: {
+	children: React.ReactNode;
+	modal: React.ReactNode;
+}) {
 	const categories = await getCategories();
 
 	const cart = await getCartById();
@@ -63,6 +69,7 @@ export default async function RootLayout({ children }: { children: React.ReactNo
 				<footer className="border-t border-gray-200 bg-gray-50 p-12 text-center text-sm font-medium text-gray-500 dark:border-t dark:border-gray-700 dark:bg-gray-900 dark:text-gray-400">
 					<p>Awesome Shop Mate Inc. © 2023</p>
 				</footer>
+				{modal}
 			</body>
 		</html>
 	);

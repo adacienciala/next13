@@ -1,5 +1,6 @@
 import { cookies } from "next/headers";
 import Image from "next/image";
+import Link from "next/link";
 import { redirect } from "next/navigation";
 
 import { getCartById } from "@/api/cart/getOrCreateCart";
@@ -21,7 +22,12 @@ export default async function CartPage() {
 
 	return (
 		<div>
-			<h1 className="mb-4 text-2xl font-bold">Cart</h1>
+			<div className="mb-4 flex items-center gap-3">
+				<h1 className="text-2xl font-bold">Cart</h1>
+				<Link className="underline" href="/cart/details">
+					[details]
+				</Link>
+			</div>
 			<table className="mb-4 w-full table-auto border-separate rounded-md border border-slate-400 p-2 text-left [border-spacing:0.75rem]">
 				<thead>
 					<tr className="text-sm font-semibold uppercase  text-slate-700">
