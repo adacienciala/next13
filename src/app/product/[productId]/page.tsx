@@ -11,6 +11,8 @@ import { formatMoney } from "@/lib/formatMoney";
 import { ButtonAddToCart } from "@/ui/molecules/ButtonAddToCart";
 import { ProductVariants } from "@/ui/molecules/ProductVariants";
 
+export type TProductDetailsPage = { params: { productId: string } };
+
 export const generateMetadata = async ({
 	params,
 }: {
@@ -23,7 +25,7 @@ export const generateMetadata = async ({
 	};
 };
 
-export default async function ProductDetailsPage({ params }: { params: { productId: string } }) {
+export default async function ProductDetailsPage({ params }: TProductDetailsPage) {
 	const product = await getProductById(params.productId);
 
 	if (!product) return notFound();
