@@ -1,6 +1,6 @@
 import { Overlay } from "@/ui/atoms/Overlay";
 
-export default function CartModalPage() {
+export default function ModalCartDetails() {
 	return (
 		<>
 			<Overlay>

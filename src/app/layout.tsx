@@ -59,7 +59,7 @@ export default async function RootLayout({
 						</ul>
 					</nav>
 					<SearchInput className="ml-auto w-96" />
-					<Link href="/cart" className="mx-8 flex items-center">
+					<Link href="/cart/sidebar" className="mx-8 flex items-center">
 						<ShoppingCart />
 						<span className="mx-2 text-sm font-medium">{cartQuantity}</span>
 						<span className="sr-only">items in cart, view cart</span>

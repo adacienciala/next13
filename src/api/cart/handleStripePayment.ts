@@ -44,8 +44,8 @@ export const handleStripePayment = async () => {
 			)
 			.filter(Boolean) as Stripe.Checkout.SessionCreateParams.LineItem[],
 		mode: "payment",
-		success_url: `http://localhost:3000/cart/success?session_id={CHECKOUT_SESSION_ID}`,
-		cancel_url: `http://localhost:3000/cart/canceled`,
+		success_url: `${process.env.APP_URL}/cart/success?session_id={CHECKOUT_SESSION_ID}`,
+		cancel_url: `${process.env.APP_URL}/cart/canceled`,
 	});
 	if (session.url) {
 		cookies().set("cartId", "");
