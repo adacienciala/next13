@@ -3,6 +3,7 @@ import Image from "next/image";
 import { redirect } from "next/navigation";
 
 import { getCartById } from "@/api/cart/getOrCreateCart";
+import { handleStripePayment } from "@/api/cart/handleStripePayment";
 import { formatMoney } from "@/lib/formatMoney";
 import { AdjustableQuantity } from "@/ui/molecules/AdjustableQuantity";
 import { ButtonRemove } from "@/ui/molecules/ButtonRemove";
@@ -58,6 +59,14 @@ export default async function CartPage() {
 					)}
 				</tbody>
 			</table>
+			<form action={handleStripePayment} className="ml-auto">
+				<button
+					type="submit"
+					className="rounded-sm border bg-slate-100 px-8 py-2 shadow-sm transition-colors hover:bg-slate-200"
+				>
+					Pay
+				</button>
+			</form>
 		</div>
 	);
 }

@@ -5,6 +5,7 @@ fragment CartItem on Order {
     product {
       id
       name
+      description
       price
       images {
         url
