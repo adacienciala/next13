@@ -1,7 +1,7 @@
 /* eslint-disable @next/next/no-img-element */
 import { ImageResponse } from "next/server";
 
-import { getProductById } from "@/api/getProducts";
+import { getProductById } from "@/api/products/getProducts";
 import { type TProductDetailsPage } from "@/app/product/[productId]/page";
 
 // Route segment config

@@ -1,5 +1,5 @@
-import { getCollections } from "@/api/getCollections";
-import { getProducts } from "@/api/getProducts";
+import { getCollections } from "@/api/products/getCollections";
+import { getProducts } from "@/api/products/getProducts";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 import { ProductList } from "@/ui/molecules/ProductList";

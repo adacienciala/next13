@@ -1,6 +1,7 @@
 "use client";
 import clsx, { type ClassValue } from "clsx";
 import { Search } from "lucide-react";
+import { type Route } from "next";
 import { useRouter, useSearchParams } from "next/navigation";
 import { useEffect, useState, type ChangeEvent } from "react";
 
@@ -19,12 +20,12 @@ export const SearchInput = ({ className }: { className?: ClassValue }) => {
 
 	const handleSearchOnSubmit = (event: ChangeEvent<HTMLInputElement>) => {
 		event.preventDefault();
-		router.push(`/search?query=${query?.toString()}`);
+		router.push(`/search?query=${query?.toString()}` as Route);
 	};
 
 	useEffect(() => {
 		if (value) {
-			router.push(`/search?query=${query?.toString()}`);
+			router.push(`/search?query=${query?.toString()}` as Route);
 		}
 		// Otherwise the debounce is not working correctly.
 		// eslint-disable-next-line react-hooks/exhaustive-deps

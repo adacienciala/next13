@@ -1,8 +1,8 @@
 import { type Metadata } from "next";
 import { notFound } from "next/navigation";
 
-import { getCollections } from "@/api/getCollections";
-import { getProductsByCollection } from "@/api/getProducts";
+import { getCollections } from "@/api/products/getCollections";
+import { getProductsByCollection } from "@/api/products/getProducts";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/molecules/ProductList";

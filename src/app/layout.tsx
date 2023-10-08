@@ -6,7 +6,7 @@ import Link from "next/link";
 import { ActiveLink } from "@/ui/atoms/ActiveLink";
 
 import { getCartById } from "@/api/cart/getOrCreateCart";
-import { getCategories } from "@/api/getCategories";
+import { getCategories } from "@/api/products/getCategories";
 import { SearchInput } from "@/ui/molecules/SearchInput";
 import "./globals.css";
 

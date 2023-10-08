@@ -6,10 +6,12 @@ import { notFound } from "next/navigation";
 
 import { addProductToCart } from "@/api/cart/addProductToCart";
 import { getOrCreateCart } from "@/api/cart/getOrCreateCart";
-import { getProductById } from "@/api/getProducts";
+import { getProductById } from "@/api/products/getProducts";
+import { getReviewsForProduct } from "@/api/review/getReviewsForProduct";
 import { formatMoney } from "@/lib/formatMoney";
 import { ButtonAddToCart } from "@/ui/molecules/ButtonAddToCart";
 import { ProductVariants } from "@/ui/molecules/ProductVariants";
+import { Reviews } from "@/ui/organisms/Reviews";
 
 export type TProductDetailsPage = { params: { productId: string } };
 
@@ -27,8 +29,9 @@ export const generateMetadata = async ({
 
 export default async function ProductDetailsPage({ params }: TProductDetailsPage) {
 	const product = await getProductById(params.productId);
-
 	if (!product) return notFound();
+
+	const reviews = (await getReviewsForProduct(product.id)) || [];
 
 	const addProductToCartAction = async () => {
 		"use server";
@@ -57,6 +60,7 @@ export default async function ProductDetailsPage({ params }: TProductDetailsPage
 			<form action={addProductToCartAction}>
 				<ButtonAddToCart />
 			</form>
+			<Reviews reviews={reviews} productId={product.id} />
 		</>
 	);
 }
