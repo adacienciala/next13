@@ -42,7 +42,7 @@ export default async function ModalCartSidebar() {
 											</td>
 											<td>{product.name}</td>
 											<td>
-												<AdjustableQuantity quantity={quantity} itemId={id} />
+												<AdjustableQuantity quantity={quantity} price={product.price} itemId={id} />
 											</td>
 											<td>{formatMoney(product.price)}</td>
 										</tr>

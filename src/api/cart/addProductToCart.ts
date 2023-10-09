@@ -1,7 +1,13 @@
-import { CartAddProductDocument, ProductsGetByIdDocument } from "@/gql/graphql";
+import { CartUpsertProductDocument, ProductsGetByIdDocument } from "@/gql/graphql";
 import { executeGraphql } from "@/lib/graphql";
 
-export const addProductToCart = async (cartId: string, productId: string) => {
+export const addProductToCart = async (
+	cartId: string,
+	productId: string,
+	quantity: number,
+	total: number,
+	orderItemId?: string,
+) => {
 	const { product } = await executeGraphql({
 		query: ProductsGetByIdDocument,
 		variables: { id: productId },
@@ -11,11 +17,13 @@ export const addProductToCart = async (cartId: string, productId: string) => {
 	}
 
 	await executeGraphql({
-		query: CartAddProductDocument,
+		query: CartUpsertProductDocument,
 		variables: {
-			orderId: cartId,
+			cartId,
 			productId,
-			total: product.price,
+			quantity,
+			total,
+			orderItemId,
 		},
 		cache: "no-store",
 	});

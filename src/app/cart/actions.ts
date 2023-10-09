@@ -8,8 +8,8 @@ import { createReview } from "@/api/review/createReview";
 import { publishReview } from "@/api/review/publishReview";
 import { type ReviewItemFragment } from "@/gql/graphql";
 
-export const changeItemQuantity = async (itemId: string, quantity: number) => {
-	await setCartItemQuantity(itemId, quantity);
+export const changeItemQuantity = async (itemId: string, price: number, quantity: number) => {
+	await setCartItemQuantity(itemId, price, quantity);
 };
 
 export const removeItem = async (itemId: string) => {

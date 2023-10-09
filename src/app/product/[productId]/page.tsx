@@ -35,8 +35,13 @@ export default async function ProductDetailsPage({ params }: TProductDetailsPage
 
 	const addProductToCartAction = async () => {
 		"use server";
+
 		const cart = await getOrCreateCart();
-		await addProductToCart(cart.id, product.id);
+		const orderItem = cart?.orderItems.find((item) => item.product?.id === product.id);
+
+		const quantity = orderItem ? orderItem.quantity + 1 : 1;
+		const total = orderItem ? product.price * (orderItem.quantity + 1) : product.price;
+		await addProductToCart(cart.id, product.id, quantity, total, orderItem?.id);
 
 		revalidateTag("cart");
 	};
