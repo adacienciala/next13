@@ -5,6 +5,7 @@ import {
 	ProductsGetByIdDocument,
 	ProductsGetSearchDocument,
 	type ProductItemFragment,
+	type ProductOrderByInput,
 } from "@/gql/graphql";
 import { executeGraphql } from "@/lib/graphql";
 import { type TProduct } from "@/types";
@@ -15,8 +16,9 @@ export const getProductsByCategory = async (params?: {
 	slug: string;
 	page?: number;
 	take?: number;
+	orderBy?: ProductOrderByInput;
 }) => {
-	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
+	const { page = 0, take = TAKE_DEFAULT, slug, orderBy } = params ?? {};
 	if (!slug) return {};
 
 	const res = await executeGraphql({
@@ -25,6 +27,7 @@ export const getProductsByCategory = async (params?: {
 			slug,
 			first: take,
 			skip: page * take,
+			orderBy,
 		},
 		next: {
 			revalidate: 60 * 60 * 24,
@@ -40,8 +43,9 @@ export const getProductsByCollection = async (params?: {
 	slug: string;
 	page?: number;
 	take?: number;
+	orderBy?: ProductOrderByInput;
 }) => {
-	const { page = 0, take = TAKE_DEFAULT, slug } = params ?? {};
+	const { page = 0, take = TAKE_DEFAULT, slug, orderBy } = params ?? {};
 	if (!slug) return {};
 
 	const res = await executeGraphql({
@@ -50,9 +54,11 @@ export const getProductsByCollection = async (params?: {
 			slug,
 			first: take,
 			skip: page * take,
+			orderBy,
 		},
 		next: {
 			revalidate: 60 * 60 * 24,
+			tags: ["products", "collection"],
 		},
 	});
 	const total = res.productsConnection.aggregate.count;
@@ -73,19 +79,28 @@ export const getProductById = async (id: TProduct["id"]) => {
 	});
 
 	const p = res.product;
+
 	if (!p) return undefined;
 
 	return fromApiToProduct(p);
 };
 
-export const getProducts = async (params?: { page?: number; take?: number }) => {
-	const { page = 0, take = TAKE_DEFAULT } = params ?? {};
+export const getProducts = async (params?: {
+	page?: number;
+	take?: number;
+	orderBy?: ProductOrderByInput;
+}) => {
+	const { page = 0, take = TAKE_DEFAULT, orderBy } = params ?? {};
 
 	const res = await executeGraphql({
 		query: ProductsGetAllDocument,
 		variables: {
 			first: take,
 			skip: page * take,
+			orderBy,
+		},
+		next: {
+			tags: ["products"],
 		},
 	});
 	const total = res.productsConnection.aggregate.count;
@@ -108,6 +123,9 @@ export const getProductsSearch = async (params?: {
 			skip: page * take,
 			search: params!.search,
 		},
+		next: {
+			tags: ["products"],
+		},
 	});
 	const total = res.productsConnection.aggregate.count;
 	const results = res.products || [];
@@ -125,6 +143,7 @@ const fromApiToProduct = (p: ProductItemFragment) =>
 		category: p.categories[0]?.name,
 		collection: p.collections[0]?.name,
 		reviews: p.reviews,
+		averageRating: p.averageRating,
 		image: p.images[0]?.url,
 		variants: p.variants,
 	}) as TProduct;

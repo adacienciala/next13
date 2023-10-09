@@ -10,9 +10,11 @@ import { ReviewForm } from "@/ui/organisms/ReviewForm";
 
 export const Reviews = ({
 	productId,
+	avgRating,
 	reviews,
 }: {
 	productId: ProductItemFragment["id"];
+	avgRating: ProductItemFragment["averageRating"];
 	reviews: ReviewItemFragment[];
 }) => {
 	const [optimisticReviews, setOptimisticReviews] = useOptimistic(
@@ -33,6 +35,8 @@ export const Reviews = ({
 		await addProductReviewAction(productId, review);
 	};
 
+	const avgText = typeof avgRating === "number" ? ` – ${avgRating} / 5` : null;
+
 	return (
 		<div>
 			<div className="mt-4 flex flex-row">
@@ -41,7 +45,9 @@ export const Reviews = ({
 					className="ml-4 flex grow flex-col
 					gap-8 divide-y divide-slate-200"
 				>
-					<h1 className="text-2xl font-bold">Reviews ({reviews.length})</h1>
+					<h1 className="text-2xl font-bold">
+						Reviews ({reviews.length}){avgText}
+					</h1>
 					{optimisticReviews.map((r) => (
 						<ReviewListItem review={r} key={r.id} />
 					))}

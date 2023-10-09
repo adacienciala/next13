@@ -65,7 +65,7 @@ export default async function ProductDetailsPage({ params }: TProductDetailsPage
 			<form action={addProductToCartAction}>
 				<ButtonAddToCart />
 			</form>
-			<Reviews reviews={reviews} productId={product.id} />
+			<Reviews avgRating={product.averageRating} reviews={reviews} productId={product.id} />
 		</>
 	);
 }

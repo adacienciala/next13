@@ -12,6 +12,7 @@ fragment ProductItem on Product {
 	reviews {
 		...ReviewItem
 	}
+	averageRating
 	slug
 	images {
 		url

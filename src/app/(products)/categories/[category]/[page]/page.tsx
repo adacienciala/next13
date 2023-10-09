@@ -4,8 +4,10 @@ import { notFound } from "next/navigation";
 import { getCategories } from "@/api/products/getCategories";
 import { getProductsByCategory } from "@/api/products/getProducts";
 import { DEFAULT_TAKE } from "@/app/(products)/products/utils";
+import { type ProductOrderByInput } from "@/gql/graphql";
 import { Pagination } from "@/ui/molecules/Pagination";
 import { ProductList } from "@/ui/molecules/ProductList";
+import { SortSelect } from "@/ui/molecules/SortSelect";
 
 // export const dynamic = "force-dynamic";
 
@@ -13,6 +15,9 @@ type TCategoryProductsPaginationPage = {
 	params: {
 		page: string;
 		category: string;
+	};
+	searchParams: {
+		sort: ProductOrderByInput;
 	};
 };
 
@@ -35,6 +40,7 @@ export const generateMetadata = async ({
 
 export default async function CategoryProductsPaginationPage({
 	params,
+	searchParams,
 }: TCategoryProductsPaginationPage) {
 	const pageNr = Number(params.page) - 1;
 	if (pageNr < 0) return notFound();
@@ -43,6 +49,7 @@ export default async function CategoryProductsPaginationPage({
 		slug: params.category,
 		page: pageNr,
 		take: DEFAULT_TAKE,
+		orderBy: searchParams.sort,
 	});
 
 	const pages = total ? Math.ceil(total / DEFAULT_TAKE) : 0;
@@ -50,6 +57,7 @@ export default async function CategoryProductsPaginationPage({
 	return (
 		<>
 			{products && products[0] && <h1>{products[0].category}</h1>}
+			<SortSelect />
 			<ProductList products={products} />
 			<Pagination pages={pages} href={`/categories/${params.category}`} />
 		</>

@@ -12,6 +12,7 @@ export type TProduct = {
 	collection: string;
 	reviews: ReviewItemFragment[];
 	image?: string;
+	averageRating?: number;
 	variants?: {
 		id: string;
 		name: string;

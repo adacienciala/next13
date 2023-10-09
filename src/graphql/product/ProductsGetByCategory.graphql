@@ -1,5 +1,5 @@
-query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int) {
-  products(first: $first, skip: $skip, where: {categories_some: {slug: $slug}}) {
+query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(first: $first, skip: $skip, orderBy: $orderBy, where: {categories_some: {slug: $slug}}) {
     ...ProductItem
   }
   productsConnection(where: {categories_some: {slug: $slug}}) {
