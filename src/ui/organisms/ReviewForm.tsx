@@ -11,7 +11,7 @@ export const ReviewForm = ({ action }: { action: (formData: FormData) => void })
 
 	return (
 		<form data-testid="add-review-form" className="w-1/2 px-4" action={action}>
-			<h1 className="text-2xl font-bold">Share your thoughts</h1>
+			<h3 className="text-2xl font-bold">Share your thoughts</h3>
 			<p className="mb-8">If you’ve used this product, share your thoughts with other customers.</p>
 			<div>
 				{formFields.map((field) => (

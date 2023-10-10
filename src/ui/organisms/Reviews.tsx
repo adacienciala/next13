@@ -45,9 +45,9 @@ export const Reviews = ({
 					className="ml-4 flex grow flex-col
 					gap-8 divide-y divide-slate-200"
 				>
-					<h1 className="text-2xl font-bold">
+					<h3 className="text-2xl font-bold">
 						Reviews ({reviews.length}){avgText}
-					</h1>
+					</h3>
 					{optimisticReviews.map((r) => (
 						<ReviewListItem review={r} key={r.id} />
 					))}

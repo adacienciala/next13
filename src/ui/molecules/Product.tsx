@@ -22,9 +22,14 @@ export const Product = ({ product }: { product: TProduct }) => {
 			<CardContent>
 				<CardDescription>{product.category}</CardDescription>
 				<CardTitle>{product.name}</CardTitle>
-				<CardDescription>{formatMoney(product.price)}</CardDescription>
+				<CardDescription data-testid="product-price">{formatMoney(product.price)}</CardDescription>
 			</CardContent>
-			{product.reviews.length > 0 && <CardFooter>Rating: {avgText}</CardFooter>}
+			<CardFooter>
+				Rating:
+				<p className="ml-2" data-testid="product-rating">
+					{avgText}
+				</p>
+			</CardFooter>
 		</Card>
 	);
 };
