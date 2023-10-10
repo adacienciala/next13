@@ -1,6 +1,6 @@
 "use server";
 
-import { revalidateTag } from "next/cache";
+import { revalidatePath, revalidateTag } from "next/cache";
 
 import { removeItemFromCart } from "@/api/cart/removeItemFromCart";
 import { setCartItemQuantity } from "@/api/cart/setCartItemQuantity";
@@ -10,6 +10,7 @@ import { type ReviewItemFragment } from "@/gql/graphql";
 
 export const changeItemQuantity = async (itemId: string, price: number, quantity: number) => {
 	await setCartItemQuantity(itemId, price, quantity);
+	revalidatePath("/cart");
 };
 
 export const removeItem = async (itemId: string) => {
