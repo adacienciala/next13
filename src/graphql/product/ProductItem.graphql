@@ -1,0 +1,21 @@
+fragment ProductItem on Product {
+	id
+	name
+	description
+	price
+	categories {
+		name
+	}
+	collections {
+		name
+	}
+	reviews {
+		...ReviewItem
+	}
+	averageRating
+	slug
+	images {
+		url
+	}
+	...ProductVariant
+}

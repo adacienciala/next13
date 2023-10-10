@@ -1,6 +1,6 @@
 import { type Metadata } from "next";
 
-import { getProductsSearch } from "@/api/getProducts";
+import { getProductsSearch } from "@/api/products/getProducts";
 import { ProductList } from "@/ui/molecules/ProductList";
 
 type TSearchPaginationPage = {

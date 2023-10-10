@@ -1,0 +1,10 @@
+query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(first: $first, skip: $skip, orderBy: $orderBy, where: {categories_some: {slug: $slug}}) {
+    ...ProductItem
+  }
+  productsConnection(where: {categories_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}

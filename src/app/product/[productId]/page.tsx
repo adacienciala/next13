@@ -1,10 +1,19 @@
 import { Check } from "lucide-react";
 import { type Metadata } from "next";
+import { revalidateTag } from "next/cache";
 import Image from "next/image";
 import { notFound } from "next/navigation";
 
-import { getProductById } from "@/api/getProducts";
+import { addProductToCart } from "@/api/cart/addProductToCart";
+import { getOrCreateCart } from "@/api/cart/getOrCreateCart";
+import { getProductById } from "@/api/products/getProducts";
+import { getReviewsForProduct } from "@/api/review/getReviewsForProduct";
+import { formatMoney } from "@/lib/formatMoney";
+import { ButtonAddToCart } from "@/ui/molecules/ButtonAddToCart";
 import { ProductVariants } from "@/ui/molecules/ProductVariants";
+import { Reviews } from "@/ui/organisms/Reviews";
+
+export type TProductDetailsPage = { params: { productId: string } };
 
 export const generateMetadata = async ({
 	params,
@@ -18,10 +27,24 @@ export const generateMetadata = async ({
 	};
 };
 
-export default async function ProductDetailsPage({ params }: { params: { productId: string } }) {
+export default async function ProductDetailsPage({ params }: TProductDetailsPage) {
 	const product = await getProductById(params.productId);
-
 	if (!product) return notFound();
+
+	const reviews = (await getReviewsForProduct(product.id)) || [];
+
+	const addProductToCartAction = async () => {
+		"use server";
+
+		const cart = await getOrCreateCart();
+		const orderItem = cart?.orderItems.find((item) => item.product?.id === product.id);
+
+		const quantity = orderItem ? orderItem.quantity + 1 : 1;
+		const total = orderItem ? product.price * (orderItem.quantity + 1) : product.price;
+		await addProductToCart(cart.id, product.id, quantity, total, orderItem?.id);
+
+		revalidateTag("cart");
+	};
 
 	return (
 		<>
@@ -33,15 +56,16 @@ export default async function ProductDetailsPage({ params }: { params: { product
 			</div>
 			<p className="mt-4">{product.description}</p>
 			<p className="mt-4">
-				{new Intl.NumberFormat("en-US", {
-					style: "currency",
-					currency: "USD",
-				}).format(product.price)}
+				{formatMoney(product.price)}
 				<ProductVariants product={product} />
 			</p>
 			<p className="row-auto mt-4 flex">
 				<Check color="green" /> In stock
 			</p>
+			<form action={addProductToCartAction}>
+				<ButtonAddToCart />
+			</form>
+			<Reviews avgRating={product.averageRating} reviews={reviews} productId={product.id} />
 		</>
 	);
 }

@@ -1,6 +1,6 @@
 import { Suspense } from "react";
 
-import { getProducts } from "@/api/getProducts";
+import { getProducts } from "@/api/products/getProducts";
 import { ProductList } from "@/ui/molecules/ProductList";
 
 export default async function ProductDetailsLayout({ children }: { children: React.ReactNode }) {

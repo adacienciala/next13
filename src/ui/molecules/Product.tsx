@@ -1,5 +1,6 @@
 import Image from "next/image";
 
+import { formatMoney } from "@/lib/formatMoney";
 import { type TProduct } from "@/types";
 import {
 	Card,
@@ -11,8 +12,7 @@ import {
 } from "@/ui/molecules/card";
 
 export const Product = ({ product }: { product: TProduct }) => {
-	const reviewAvg =
-		product.reviews.reduce((acc, curr) => acc + curr.rating, 0) / product.reviews.length;
+	const avgText = typeof product.averageRating === "number" ? `${product.averageRating} / 5` : "–";
 
 	return (
 		<Card className="w-80">
@@ -22,18 +22,14 @@ export const Product = ({ product }: { product: TProduct }) => {
 			<CardContent>
 				<CardDescription>{product.category}</CardDescription>
 				<CardTitle>{product.name}</CardTitle>
-				<CardDescription>
-					{new Intl.NumberFormat("en-US", {
-						style: "currency",
-						currency: "USD",
-					}).format(product.price / 100)}
-				</CardDescription>
+				<CardDescription data-testid="product-price">{formatMoney(product.price)}</CardDescription>
 			</CardContent>
-			{product.reviews.length > 0 && (
-				<CardFooter>
-					Rating: {reviewAvg.toFixed(2)} by {product.reviews.length}
-				</CardFooter>
-			)}
+			<CardFooter>
+				Rating:
+				<p className="ml-2" data-testid="product-rating">
+					{avgText}
+				</p>
+			</CardFooter>
 		</Card>
 	);
 };

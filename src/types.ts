@@ -1,3 +1,5 @@
+import { type ReviewItemFragment } from "@/gql/graphql";
+
 export type TProductCover = { src: string; alt: string };
 
 export type TProduct = {
@@ -8,8 +10,9 @@ export type TProduct = {
 	description: string;
 	category: string;
 	collection: string;
-	reviews: { rating: number }[];
+	reviews: ReviewItemFragment[];
 	image?: string;
+	averageRating?: number;
 	variants?: {
 		id: string;
 		name: string;

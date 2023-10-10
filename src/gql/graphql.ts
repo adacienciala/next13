@@ -5516,6 +5516,7 @@ export type PageInfo = {
 };
 
 export type Product = Node & {
+  averageRating?: Maybe<Scalars['Float']['output']>;
   categories: Array<Category>;
   collections: Array<Collection>;
   /** The time the document was created */
@@ -6244,6 +6245,8 @@ export type ProductConnection = {
 };
 
 export type ProductCreateInput = {
+  /** averageRating input for default locale (en) */
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   categories?: InputMaybe<CategoryCreateManyInlineInput>;
   collections?: InputMaybe<CollectionCreateManyInlineInput>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
@@ -6265,6 +6268,7 @@ export type ProductCreateInput = {
 };
 
 export type ProductCreateLocalizationDataInput = {
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   createdAt?: InputMaybe<Scalars['DateTime']['input']>;
   description: Scalars['String']['input'];
   name: Scalars['String']['input'];
@@ -6411,6 +6415,8 @@ export type ProductManyWhereInput = {
 };
 
 export type ProductOrderByInput =
+  | 'averageRating_ASC'
+  | 'averageRating_DESC'
   | 'createdAt_ASC'
   | 'createdAt_DESC'
   | 'description_ASC'
@@ -7512,6 +7518,8 @@ export type ProductSizeVariantWhereUniqueInput = {
 };
 
 export type ProductUpdateInput = {
+  /** averageRating input for default locale (en) */
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   categories?: InputMaybe<CategoryUpdateManyInlineInput>;
   collections?: InputMaybe<CollectionUpdateManyInlineInput>;
   /** description input for default locale (en) */
@@ -7531,6 +7539,7 @@ export type ProductUpdateInput = {
 };
 
 export type ProductUpdateLocalizationDataInput = {
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   name?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
@@ -7570,6 +7579,8 @@ export type ProductUpdateManyInlineInput = {
 };
 
 export type ProductUpdateManyInput = {
+  /** averageRating input for default locale (en) */
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   /** description input for default locale (en) */
   description?: InputMaybe<Scalars['String']['input']>;
   /** Optional updates to localizations */
@@ -7579,6 +7590,7 @@ export type ProductUpdateManyInput = {
 };
 
 export type ProductUpdateManyLocalizationDataInput = {
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
   description?: InputMaybe<Scalars['String']['input']>;
   price?: InputMaybe<Scalars['Int']['input']>;
 };
@@ -7754,6 +7766,21 @@ export type ProductWhereInput = {
   OR?: InputMaybe<Array<ProductWhereInput>>;
   /** Contains search across all appropriate fields. */
   _search?: InputMaybe<Scalars['String']['input']>;
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+  /** All values greater than the given value. */
+  averageRating_gt?: InputMaybe<Scalars['Float']['input']>;
+  /** All values greater than or equal the given value. */
+  averageRating_gte?: InputMaybe<Scalars['Float']['input']>;
+  /** All values that are contained in given list. */
+  averageRating_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
+  /** All values less than the given value. */
+  averageRating_lt?: InputMaybe<Scalars['Float']['input']>;
+  /** All values less than or equal the given value. */
+  averageRating_lte?: InputMaybe<Scalars['Float']['input']>;
+  /** Any other value that exists and is not equal to the given value. */
+  averageRating_not?: InputMaybe<Scalars['Float']['input']>;
+  /** All values that are not contained in given list. */
+  averageRating_not_in?: InputMaybe<Array<InputMaybe<Scalars['Float']['input']>>>;
   categories_every?: InputMaybe<CategoryWhereInput>;
   categories_none?: InputMaybe<CategoryWhereInput>;
   categories_some?: InputMaybe<CategoryWhereInput>;
@@ -10715,51 +10742,45 @@ export type _SystemDateTimeFieldVariation =
   | 'combined'
   | 'localization';
 
-export type ProductItemFragment = { id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
-
-export type ProductVariantFragment = { variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
-
-export type ProductsGetAllQueryVariables = Exact<{
-  first?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-}>;
+export type CartCreateMutationVariables = Exact<{ [key: string]: never; }>;
 
 
-export type ProductsGetAllQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+export type CartCreateMutation = { createOrder?: { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
-export type ProductsGetByCategoryQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-  first?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type ProductsGetByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
-
-export type ProductsGetByCollectionQueryVariables = Exact<{
-  slug: Scalars['String']['input'];
-  first?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
-}>;
-
-
-export type ProductsGetByCollectionQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
-
-export type ProductsGetByIdQueryVariables = Exact<{
+export type CartGetByIdQueryVariables = Exact<{
   id: Scalars['ID']['input'];
 }>;
 
 
-export type ProductsGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
+export type CartGetByIdQuery = { order?: { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }> } | null }> } | null };
 
-export type ProductsGetSearchQueryVariables = Exact<{
-  search: Scalars['String']['input'];
-  first?: InputMaybe<Scalars['Int']['input']>;
-  skip?: InputMaybe<Scalars['Int']['input']>;
+export type CartItemFragment = { id: string, total: number, orderItems: Array<{ id: string, quantity: number, total: number, product?: { id: string, name: string, description: string, price: number, images: Array<{ url: string }> } | null }> };
+
+export type CartRemoveItemMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
 }>;
 
 
-export type ProductsGetSearchQuery = { products: Array<{ id: string, name: string, description: string, price: number, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ rating: number }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+export type CartRemoveItemMutation = { deleteOrderItem?: { id: string } | null };
+
+export type CartSetProductQuantityMutationVariables = Exact<{
+  itemId: Scalars['ID']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CartSetProductQuantityMutation = { updateOrderItem?: { id: string } | null };
+
+export type CartUpsertProductMutationVariables = Exact<{
+  cartId: Scalars['ID']['input'];
+  orderItemId?: InputMaybe<Scalars['ID']['input']>;
+  productId: Scalars['ID']['input'];
+  total: Scalars['Int']['input'];
+  quantity: Scalars['Int']['input'];
+}>;
+
+
+export type CartUpsertProductMutation = { upsertOrderItem?: { id: string } | null };
 
 export type ProductsGetAllTotalQueryVariables = Exact<{ [key: string]: never; }>;
 
@@ -10790,6 +10811,91 @@ export type CollectionsGetAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetAllQuery = { collections: Array<{ name: string, slug: string }> };
 
+export type ProductItemFragment = { id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
+
+export type ProductUpdateAverageRatingMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  averageRating?: InputMaybe<Scalars['Float']['input']>;
+}>;
+
+
+export type ProductUpdateAverageRatingMutation = { updateProduct?: { id: string, averageRating?: number | null } | null, publishProduct?: { id: string } | null };
+
+export type ProductVariantFragment = { variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
+
+export type ProductsGetAllQueryVariables = Exact<{
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<ProductOrderByInput>;
+}>;
+
+
+export type ProductsGetAllQuery = { products: Array<{ id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+
+export type ProductsGetByCategoryQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<ProductOrderByInput>;
+}>;
+
+
+export type ProductsGetByCategoryQuery = { products: Array<{ id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+
+export type ProductsGetByCollectionQueryVariables = Exact<{
+  slug: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+  orderBy?: InputMaybe<ProductOrderByInput>;
+}>;
+
+
+export type ProductsGetByCollectionQuery = { products: Array<{ id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+
+export type ProductsGetByIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ProductsGetByIdQuery = { product?: { id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null };
+
+export type ProductsGetSearchQueryVariables = Exact<{
+  search: Scalars['String']['input'];
+  first?: InputMaybe<Scalars['Int']['input']>;
+  skip?: InputMaybe<Scalars['Int']['input']>;
+}>;
+
+
+export type ProductsGetSearchQuery = { products: Array<{ id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> }>, productsConnection: { aggregate: { count: number } } };
+
+export type ReviewCreateMutationVariables = Exact<{
+  productId: Scalars['ID']['input'];
+  headline: Scalars['String']['input'];
+  name: Scalars['String']['input'];
+  email: Scalars['String']['input'];
+  content: Scalars['String']['input'];
+  rating: Scalars['Int']['input'];
+}>;
+
+
+export type ReviewCreateMutation = { createReview?: { id: string } | null };
+
+export type ReviewGetByProductIdQueryVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewGetByProductIdQuery = { reviewsConnection: { edges: Array<{ node: { id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null } }> } };
+
+export type ReviewItemFragment = { id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null };
+
+export type ReviewPublishMutationVariables = Exact<{
+  id: Scalars['ID']['input'];
+}>;
+
+
+export type ReviewPublishMutation = { publishReview?: { id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null } | null };
+
 export class TypedDocumentString<TResult, TVariables>
   extends String
   implements DocumentTypeDecoration<TResult, TVariables>
@@ -10804,6 +10910,39 @@ export class TypedDocumentString<TResult, TVariables>
     return this.value;
   }
 }
+export const CartItemFragmentDoc = new TypedDocumentString(`
+    fragment CartItem on Order {
+  id
+  orderItems {
+    id
+    product {
+      id
+      name
+      description
+      price
+      images {
+        url
+      }
+    }
+    quantity
+    total
+  }
+  total
+}
+    `, {"fragmentName":"CartItem"}) as unknown as TypedDocumentString<CartItemFragment, unknown>;
+export const ReviewItemFragmentDoc = new TypedDocumentString(`
+    fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}
+    `, {"fragmentName":"ReviewItem"}) as unknown as TypedDocumentString<ReviewItemFragment, unknown>;
 export const ProductVariantFragmentDoc = new TypedDocumentString(`
     fragment ProductVariant on Product {
   variants {
@@ -10839,8 +10978,9 @@ export const ProductItemFragmentDoc = new TypedDocumentString(`
     name
   }
   reviews {
-    rating
+    ...ReviewItem
   }
+  averageRating
   slug
   images {
     url
@@ -10866,257 +11006,90 @@ export const ProductItemFragmentDoc = new TypedDocumentString(`
       size
     }
   }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
 }`, {"fragmentName":"ProductItem"}) as unknown as TypedDocumentString<ProductItemFragment, unknown>;
-export const ProductsGetAllDocument = new TypedDocumentString(`
-    query ProductsGetAll($first: Int, $skip: Int) {
-  products(first: $first, skip: $skip) {
-    ...ProductItem
-  }
-  productsConnection {
-    aggregate {
-      count
-    }
+export const CartCreateDocument = new TypedDocumentString(`
+    mutation CartCreate {
+  createOrder(data: {total: 0}) {
+    ...CartItem
   }
 }
-    fragment ProductItem on Product {
+    fragment CartItem on Order {
   id
-  name
-  description
-  price
-  categories {
-    name
-  }
-  collections {
-    name
-  }
-  reviews {
-    rating
-  }
-  slug
-  images {
-    url
-  }
-  ...ProductVariant
-}
-fragment ProductVariant on Product {
-  variants {
-    ... on ProductColorVariant {
+  orderItems {
+    id
+    product {
       id
       name
-      color
+      description
+      price
+      images {
+        url
+      }
     }
-    ... on ProductSizeVariant {
-      id
-      name
-      size
-    }
-    ... on ProductSizeColorVariant {
-      id
-      name
-      color
-      size
-    }
+    quantity
+    total
   }
-}`) as unknown as TypedDocumentString<ProductsGetAllQuery, ProductsGetAllQueryVariables>;
-export const ProductsGetByCategoryDocument = new TypedDocumentString(`
-    query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int) {
-  products(first: $first, skip: $skip, where: {categories_some: {slug: $slug}}) {
-    ...ProductItem
-  }
-  productsConnection(where: {categories_some: {slug: $slug}}) {
-    aggregate {
-      count
-    }
+  total
+}`) as unknown as TypedDocumentString<CartCreateMutation, CartCreateMutationVariables>;
+export const CartGetByIdDocument = new TypedDocumentString(`
+    query CartGetById($id: ID!) {
+  order(where: {id: $id}, stage: DRAFT) {
+    ...CartItem
   }
 }
-    fragment ProductItem on Product {
+    fragment CartItem on Order {
   id
-  name
-  description
-  price
-  categories {
-    name
-  }
-  collections {
-    name
-  }
-  reviews {
-    rating
-  }
-  slug
-  images {
-    url
-  }
-  ...ProductVariant
-}
-fragment ProductVariant on Product {
-  variants {
-    ... on ProductColorVariant {
+  orderItems {
+    id
+    product {
       id
       name
-      color
+      description
+      price
+      images {
+        url
+      }
     }
-    ... on ProductSizeVariant {
-      id
-      name
-      size
-    }
-    ... on ProductSizeColorVariant {
-      id
-      name
-      color
-      size
-    }
+    quantity
+    total
   }
-}`) as unknown as TypedDocumentString<ProductsGetByCategoryQuery, ProductsGetByCategoryQueryVariables>;
-export const ProductsGetByCollectionDocument = new TypedDocumentString(`
-    query ProductsGetByCollection($slug: String!, $first: Int, $skip: Int) {
-  products(first: $first, skip: $skip, where: {collections_some: {slug: $slug}}) {
-    ...ProductItem
-  }
-  productsConnection(where: {collections_some: {slug: $slug}}) {
-    aggregate {
-      count
-    }
+  total
+}`) as unknown as TypedDocumentString<CartGetByIdQuery, CartGetByIdQueryVariables>;
+export const CartRemoveItemDocument = new TypedDocumentString(`
+    mutation CartRemoveItem($itemId: ID!) {
+  deleteOrderItem(where: {id: $itemId}) {
+    id
   }
 }
-    fragment ProductItem on Product {
-  id
-  name
-  description
-  price
-  categories {
-    name
-  }
-  collections {
-    name
-  }
-  reviews {
-    rating
-  }
-  slug
-  images {
-    url
-  }
-  ...ProductVariant
-}
-fragment ProductVariant on Product {
-  variants {
-    ... on ProductColorVariant {
-      id
-      name
-      color
-    }
-    ... on ProductSizeVariant {
-      id
-      name
-      size
-    }
-    ... on ProductSizeColorVariant {
-      id
-      name
-      color
-      size
-    }
-  }
-}`) as unknown as TypedDocumentString<ProductsGetByCollectionQuery, ProductsGetByCollectionQueryVariables>;
-export const ProductsGetByIdDocument = new TypedDocumentString(`
-    query ProductsGetById($id: ID!) {
-  product(where: {id: $id}) {
-    ...ProductItem
+    `) as unknown as TypedDocumentString<CartRemoveItemMutation, CartRemoveItemMutationVariables>;
+export const CartSetProductQuantityDocument = new TypedDocumentString(`
+    mutation CartSetProductQuantity($itemId: ID!, $quantity: Int!) {
+  updateOrderItem(where: {id: $itemId}, data: {quantity: $quantity}) {
+    id
   }
 }
-    fragment ProductItem on Product {
-  id
-  name
-  description
-  price
-  categories {
-    name
-  }
-  collections {
-    name
-  }
-  reviews {
-    rating
-  }
-  slug
-  images {
-    url
-  }
-  ...ProductVariant
-}
-fragment ProductVariant on Product {
-  variants {
-    ... on ProductColorVariant {
-      id
-      name
-      color
-    }
-    ... on ProductSizeVariant {
-      id
-      name
-      size
-    }
-    ... on ProductSizeColorVariant {
-      id
-      name
-      color
-      size
-    }
-  }
-}`) as unknown as TypedDocumentString<ProductsGetByIdQuery, ProductsGetByIdQueryVariables>;
-export const ProductsGetSearchDocument = new TypedDocumentString(`
-    query ProductsGetSearch($search: String!, $first: Int, $skip: Int) {
-  products(where: {_search: $search}, first: $first, skip: $skip) {
-    ...ProductItem
-  }
-  productsConnection {
-    aggregate {
-      count
-    }
+    `) as unknown as TypedDocumentString<CartSetProductQuantityMutation, CartSetProductQuantityMutationVariables>;
+export const CartUpsertProductDocument = new TypedDocumentString(`
+    mutation CartUpsertProduct($cartId: ID!, $orderItemId: ID, $productId: ID!, $total: Int!, $quantity: Int!) {
+  upsertOrderItem(
+    upsert: {create: {quantity: 1, total: $total, order: {connect: {id: $cartId}}, product: {connect: {id: $productId}}}, update: {quantity: $quantity, total: $total}}
+    where: {id: $orderItemId}
+  ) {
+    id
   }
 }
-    fragment ProductItem on Product {
-  id
-  name
-  description
-  price
-  categories {
-    name
-  }
-  collections {
-    name
-  }
-  reviews {
-    rating
-  }
-  slug
-  images {
-    url
-  }
-  ...ProductVariant
-}
-fragment ProductVariant on Product {
-  variants {
-    ... on ProductColorVariant {
-      id
-      name
-      color
-    }
-    ... on ProductSizeVariant {
-      id
-      name
-      size
-    }
-    ... on ProductSizeColorVariant {
-      id
-      name
-      color
-      size
-    }
-  }
-}`) as unknown as TypedDocumentString<ProductsGetSearchQuery, ProductsGetSearchQueryVariables>;
+    `) as unknown as TypedDocumentString<CartUpsertProductMutation, CartUpsertProductMutationVariables>;
 export const ProductsGetAllTotalDocument = new TypedDocumentString(`
     query ProductsGetAllTotal {
   productsConnection {
@@ -11160,3 +11133,381 @@ export const CollectionsGetAllDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CollectionsGetAllQuery, CollectionsGetAllQueryVariables>;
+export const ProductUpdateAverageRatingDocument = new TypedDocumentString(`
+    mutation ProductUpdateAverageRating($productId: ID!, $averageRating: Float) {
+  updateProduct(where: {id: $productId}, data: {averageRating: $averageRating}) {
+    id
+    averageRating
+  }
+  publishProduct(to: PUBLISHED, where: {id: $productId}) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ProductUpdateAverageRatingMutation, ProductUpdateAverageRatingMutationVariables>;
+export const ProductsGetAllDocument = new TypedDocumentString(`
+    query ProductsGetAll($first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(first: $first, skip: $skip, orderBy: $orderBy) {
+    ...ProductItem
+  }
+  productsConnection {
+    aggregate {
+      count
+    }
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ProductsGetAllQuery, ProductsGetAllQueryVariables>;
+export const ProductsGetByCategoryDocument = new TypedDocumentString(`
+    query ProductsGetByCategory($slug: String!, $first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(
+    first: $first
+    skip: $skip
+    orderBy: $orderBy
+    where: {categories_some: {slug: $slug}}
+  ) {
+    ...ProductItem
+  }
+  productsConnection(where: {categories_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ProductsGetByCategoryQuery, ProductsGetByCategoryQueryVariables>;
+export const ProductsGetByCollectionDocument = new TypedDocumentString(`
+    query ProductsGetByCollection($slug: String!, $first: Int, $skip: Int, $orderBy: ProductOrderByInput) {
+  products(
+    first: $first
+    skip: $skip
+    orderBy: $orderBy
+    where: {collections_some: {slug: $slug}}
+  ) {
+    ...ProductItem
+  }
+  productsConnection(where: {collections_some: {slug: $slug}}) {
+    aggregate {
+      count
+    }
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ProductsGetByCollectionQuery, ProductsGetByCollectionQueryVariables>;
+export const ProductsGetByIdDocument = new TypedDocumentString(`
+    query ProductsGetById($id: ID!) {
+  product(where: {id: $id}) {
+    ...ProductItem
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ProductsGetByIdQuery, ProductsGetByIdQueryVariables>;
+export const ProductsGetSearchDocument = new TypedDocumentString(`
+    query ProductsGetSearch($search: String!, $first: Int, $skip: Int) {
+  products(where: {_search: $search}, first: $first, skip: $skip) {
+    ...ProductItem
+  }
+  productsConnection {
+    aggregate {
+      count
+    }
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ProductsGetSearchQuery, ProductsGetSearchQueryVariables>;
+export const ReviewCreateDocument = new TypedDocumentString(`
+    mutation ReviewCreate($productId: ID!, $headline: String!, $name: String!, $email: String!, $content: String!, $rating: Int!) {
+  createReview(
+    data: {headline: $headline, name: $name, email: $email, content: $content, rating: $rating, product: {connect: {id: $productId}}}
+  ) {
+    id
+  }
+}
+    `) as unknown as TypedDocumentString<ReviewCreateMutation, ReviewCreateMutationVariables>;
+export const ReviewGetByProductIdDocument = new TypedDocumentString(`
+    query ReviewGetByProductId($id: ID!) {
+  reviewsConnection(where: {product: {id: $id}}, orderBy: createdAt_DESC) {
+    edges {
+      node {
+        ...ReviewItem
+      }
+    }
+  }
+}
+    fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ReviewGetByProductIdQuery, ReviewGetByProductIdQueryVariables>;
+export const ReviewPublishDocument = new TypedDocumentString(`
+    mutation ReviewPublish($id: ID!) {
+  publishReview(where: {id: $id}, to: PUBLISHED) {
+    ...ReviewItem
+  }
+}
+    fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<ReviewPublishMutation, ReviewPublishMutationVariables>;
