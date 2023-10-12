@@ -133,7 +133,7 @@ export const getProductsSearch = async (params?: {
 	return { products, total };
 };
 
-const fromApiToProduct = (p: ProductItemFragment) =>
+export const fromApiToProduct = (p: ProductItemFragment) =>
 	({
 		id: p.id,
 		slug: p.slug,

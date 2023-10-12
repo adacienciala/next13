@@ -10811,6 +10811,13 @@ export type CollectionsGetAllQueryVariables = Exact<{ [key: string]: never; }>;
 
 export type CollectionsGetAllQuery = { collections: Array<{ name: string, slug: string }> };
 
+export type OrdersGetByEmailQueryVariables = Exact<{
+  email: Scalars['String']['input'];
+}>;
+
+
+export type OrdersGetByEmailQuery = { orders: Array<{ id: string, email?: string | null, createdAt: unknown, orderItems: Array<{ id: string, total: number, quantity: number, product?: { id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> } | null }> }> };
+
 export type ProductItemFragment = { id: string, name: string, description: string, price: number, averageRating?: number | null, slug: string, categories: Array<{ name: string }>, collections: Array<{ name: string }>, reviews: Array<{ id: string, name: string, headline: string, email: string, content: string, rating: number, createdBy?: { picture?: string | null } | null }>, images: Array<{ url: string }>, variants: Array<{ id: string, name: string, color: ProductColor } | { id: string, name: string, color: ProductColor, size: ProductSize } | { id: string, name: string, size: ProductSize }> };
 
 export type ProductUpdateAverageRatingMutationVariables = Exact<{
@@ -11133,6 +11140,74 @@ export const CollectionsGetAllDocument = new TypedDocumentString(`
   }
 }
     `) as unknown as TypedDocumentString<CollectionsGetAllQuery, CollectionsGetAllQueryVariables>;
+export const OrdersGetByEmailDocument = new TypedDocumentString(`
+    query OrdersGetByEmail($email: String!) {
+  orders(where: {email: $email}) {
+    id
+    email
+    createdAt
+    orderItems {
+      id
+      total
+      quantity
+      product {
+        ...ProductItem
+      }
+    }
+  }
+}
+    fragment ProductItem on Product {
+  id
+  name
+  description
+  price
+  categories {
+    name
+  }
+  collections {
+    name
+  }
+  reviews {
+    ...ReviewItem
+  }
+  averageRating
+  slug
+  images {
+    url
+  }
+  ...ProductVariant
+}
+fragment ProductVariant on Product {
+  variants {
+    ... on ProductColorVariant {
+      id
+      name
+      color
+    }
+    ... on ProductSizeVariant {
+      id
+      name
+      size
+    }
+    ... on ProductSizeColorVariant {
+      id
+      name
+      color
+      size
+    }
+  }
+}
+fragment ReviewItem on Review {
+  id
+  name
+  headline
+  email
+  content
+  rating
+  createdBy {
+    picture
+  }
+}`) as unknown as TypedDocumentString<OrdersGetByEmailQuery, OrdersGetByEmailQueryVariables>;
 export const ProductUpdateAverageRatingDocument = new TypedDocumentString(`
     mutation ProductUpdateAverageRating($productId: ID!, $averageRating: Float) {
   updateProduct(where: {id: $productId}, data: {averageRating: $averageRating}) {

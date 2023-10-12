@@ -1,16 +1,19 @@
-import { NextResponse, type NextRequest } from "next/server";
+import { type Route } from "next";
 
-import { isAuthenticated } from "@/lib/auth";
+import { authMiddleware } from "@clerk/nextjs";
 
 export const config = {
-	matcher: "/api/:function*",
+	matcher: ["/((?!.*\\..*|_next).*)", "/", "/(api|trpc)(.*)"],
 };
 
-export function middleware(request: NextRequest) {
-	if (!isAuthenticated(request)) {
-		return new NextResponse(JSON.stringify({ success: false, message: "authentication failed" }), {
-			status: 401,
-			headers: { "content-type": "application/json" },
-		});
-	}
-}
+export default authMiddleware({
+	publicRoutes: [
+		"/",
+		"/search",
+		"/cart(.*)",
+		"/categories(.*)",
+		"/collections(.*)",
+		"/products(.*)",
+		"/product/(.*)" as Route,
+	],
+});
